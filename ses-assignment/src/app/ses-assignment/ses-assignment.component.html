@@ -1,0 +1,47 @@
+	<form>
+	<div class ="form-group">
+        <label for = "firstName"> First Name: </label>
+		<input ngModel type = "text" id = "firstName" name = "firstName" #firstName ="ngModel" class ="form-control"
+			required minlength ="3">
+		<div class = "alert" *ngIf="firstName.touched && !firstName.valid">
+		  <div *ngIf="firstName.errors?.required">First name is required.</div>
+		  <div *ngIf="firstName.errors?.minlength">First name should be minimum of {{ firstName.errors?.minlength.requiredLength }} characters. </div>
+		</div>
+    </div>
+	<div class = "form-group">
+	    <label for = "last_name"> Last Name: </label>
+		<input ngModel type = "text" id = "lastName" name = "lastName" #lastName = "ngModel" class ="form-control"
+			required minlength ="3">
+	    <div class = "alert" *ngIf="lastName.touched && !lastName.valid">
+	      <div *ngIf="lastName.errors?.required">Last name is required.</div>
+	      <div *ngIf="lastName.errors?.minlength">Last name should be minimum of {{ lastName.errors?.minlength.requiredLength }} characters. </div>
+		</div>
+    </div>
+	<div class = "form-group">
+	    <p> Please select your gender. </p>
+		<input ngModel type = "radio" id = "male" name = "gender" value = "male" #gender = "ngModel"
+		  required>
+		<label for = "male"> Male </label> <br>
+		<input ngModel type = "radio" id = "female" name = "gender" value = "female" 
+		  required>
+		<label for = "female"> Female </label> <br>
+		<input type = "radio" id = "other" name = "gender" value = "other"
+		  required>
+		<label for = "other"> Other </label> <br>
+		<div class = "alert" *ngIf ="!gender.touched">
+		  <div *ngIf= "gender.errors?.required">Please select a gender.</div>
+		</div>
+	</div>    
+	<div class = "form-group">	
+		<label for = "birthday"> Birthday: </label>
+		<input ngModel type = "date" id = "birthday" name = "birthday" #birthday = "ngModel"
+		required>
+		<div class = "alert">
+		  <div *ngIf = "birthday.errors?.required">Please select a birthday.</div>
+		</div>
+	</div>
+	<button class = "btn btn-primary">Submit</button>
+	</form>
+
+ 
+ 
