@@ -12,11 +12,9 @@ export class SesAssignmentComponent {
   @ViewChild('sesForm') form: any;
   
   handleUserData(){
-	//console.log(this.form);
-	
-	//might not be right; maybe need user class
+
 	let formData = this.form.value;
-	//console.log(formData);
+	
 		
 	let firstName = formData.firstName;
 	let lastName = formData.lastName;
