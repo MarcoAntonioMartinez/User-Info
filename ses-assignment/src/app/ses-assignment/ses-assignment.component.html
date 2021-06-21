@@ -1,47 +1,51 @@
-	<form>
+	<form #sesForm = "ngForm" (ngSubmit)= "handleUserData()" >
 	<div class ="form-group">
         <label for = "firstName"> First Name: </label>
-		<input ngModel type = "text" id = "firstName" name = "firstName" #firstName ="ngModel" class ="form-control"
+		<input [(ngModel)]="model.firstName" type = "text" id = "firstName" name = "firstName" #firstName ="ngModel" class ="form-control"
 			required minlength ="3">
-		<div class = "alert" *ngIf="firstName.touched && !firstName.valid">
+		<div [hidden]="firstName.valid || firstName.pristine" class = "alert" *ngIf="firstName.touched && !firstName.valid">
 		  <div *ngIf="firstName.errors?.required">First name is required.</div>
 		  <div *ngIf="firstName.errors?.minlength">First name should be minimum of {{ firstName.errors?.minlength.requiredLength }} characters. </div>
 		</div>
     </div>
 	<div class = "form-group">
 	    <label for = "last_name"> Last Name: </label>
-		<input ngModel type = "text" id = "lastName" name = "lastName" #lastName = "ngModel" class ="form-control"
+		<input [(ngModel)]="model.lastName" type = "text" id = "lastName" name = "lastName" #lastName = "ngModel" class ="form-control"
 			required minlength ="3">
-	    <div class = "alert" *ngIf="lastName.touched && !lastName.valid">
+	    <div [hidden]="lastName.valid || lastName.pristine" class = "alert" *ngIf="lastName.touched && !lastName.valid">
 	      <div *ngIf="lastName.errors?.required">Last name is required.</div>
 	      <div *ngIf="lastName.errors?.minlength">Last name should be minimum of {{ lastName.errors?.minlength.requiredLength }} characters. </div>
 		</div>
     </div>
 	<div class = "form-group">
-	    <p> Please select your gender. </p>
-		<input ngModel type = "radio" id = "male" name = "gender" value = "male" #gender = "ngModel"
+	    <p> Please select your sex. </p>
+		<input [(ngModel)]="model.sex" type = "radio" id = "male" name = "gender" value = "male" #sex = "ngModel"
 		  required>
 		<label for = "male"> Male </label> <br>
-		<input ngModel type = "radio" id = "female" name = "gender" value = "female" 
+		<input [(ngModel)]="model.sex" type = "radio" id = "female" name = "gender" value = "female" #sex = "ngModel"
 		  required>
 		<label for = "female"> Female </label> <br>
-		<input type = "radio" id = "other" name = "gender" value = "other"
+		<input [(ngModel)]="model.sex" type = "radio" id = "other" name = "gender" value = "other" #sex = "ngModel"
 		  required>
 		<label for = "other"> Other </label> <br>
-		<div class = "alert" *ngIf ="!gender.touched">
-		  <div *ngIf= "gender.errors?.required">Please select a gender.</div>
+		<div [hidden]="sex.valid || sex.pristine" class = "alert" *ngIf ="!sex.touched">
+		  <div *ngIf= "sex.errors?.required">Please select a sex.</div>
 		</div>
 	</div>    
 	<div class = "form-group">	
 		<label for = "birthday"> Birthday: </label>
-		<input ngModel type = "date" id = "birthday" name = "birthday" #birthday = "ngModel"
+		<input [(ngModel)]="model.birthday" type = "date" id = "birthday" name = "birthday" #birthday = "ngModel"
 		required>
-		<div class = "alert">
+		<div [hidden]="birthday.valid || birthday.pristine" class = "alert" *ngIf="!sex.touched">
 		  <div *ngIf = "birthday.errors?.required">Please select a birthday.</div>
 		</div>
 	</div>
-	<button class = "btn btn-primary">Submit</button>
+	<button type = "submit" class = "btn btn-primary" 
+	  [disabled]= "!sesForm.form.valid" (click) = "handleUserData()">Submit</button>
+	<button type = "redirect" class = "btn btn-primary" [routerLink] = "['../display-data']"
+	  [disabled]= "!sesForm.form.valid">Display data</button>  
 	</form>
-
- 
+	<!-- not sure if needed
+	<router-outlet></router-outlet>
+  -->
  

@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SesAssignmentComponent } from './ses-assignment/ses-assignment.component';
+import { DisplayDataComponent } from './display-data/display-data.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SesAssignmentComponent
+    SesAssignmentComponent,
+    DisplayDataComponent
   ],
   imports: [
     BrowserModule,
