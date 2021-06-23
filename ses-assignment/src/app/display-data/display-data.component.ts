@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SesAssignmentComponent } from '../ses-assignment/ses-assignment.component';
+import { UserService } from '../user.service';
+import { User } from '../ses-assignment/user';
 
 @Component({
   selector: 'display-data',
@@ -8,12 +9,20 @@ import { SesAssignmentComponent } from '../ses-assignment/ses-assignment.compone
 })
 export class DisplayDataComponent implements OnInit {
   
-  @Input() sesAssignment!: SesAssignmentComponent;
-
-  constructor() { }
-
-  ngOnInit(): void {
+  //form instance used to hold array of users
+  public displayForm: {
+	users: User[];
+  };
+  
+  constructor(private userService: UserService) { 
+    this.displayForm = {
+		users: []
+	};
   }
-
+ 
+ //get the user data from the SesAssignmentComponent
+  ngOnInit(): void {
+	this.displayForm.users = this.userService.getUsers();
+  }
   
 }

@@ -1,8 +1,21 @@
+<!-- 
+	Display Data Page
+	displays: list of user data that can be filtered by sex
+			  lowest, highest or avg age of user data or filtered data
+			  updated list after editing or removing user
+-->
 <form>
-	<div class ="form-group">
-        
-    </div>
 	
+	<div class ="form-group">
+        <h2> Display User Data </h2>
+		
+		<ul>
+		<li *ngFor= "let user of displayForm.users">First Name: {{user.firstName}} </li>
+		
+		</ul>
+			
+	
+    </div>
 	</form>
 
  

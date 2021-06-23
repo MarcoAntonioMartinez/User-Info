@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from './user';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'ses-assignment',
@@ -9,22 +10,65 @@ import { User } from './user';
 })
 export class SesAssignmentComponent {
   model: User = new User();
-  @ViewChild('sesForm') form: any;
-  
-  handleUserData(){
 
-	let formData = this.form.value;
+  isDisabled: boolean = true;
+   
+    ngOnInit(): void {
 	
-		
-	let firstName = formData.firstName;
-	let lastName = formData.lastName;
-	let sex = formData.sex;
-	let birthday = formData.birthday;
+  }
+  
+  public form: {
+	users: User[];
+  };
+  
+  disabledForm(){
+	if(this.form.users.length >= 1)
+	{
+	  this.isDisabled = false;
+	}
+	else
+	{ 
+	 this.isDisabled = true;
+	}
+  }
+  
+  //constructor for the form instance users array
+  constructor(private userService: UserService){
 	
-	let user = new User();
+	this.form = {
+		users: []
+	};
 	
-	console.log(user);
-	console.log('posting user');	
+  }
+  
+  public addUser(): void {
+	
+	this.form.users.push({
+		firstName:this.model.firstName,
+		lastName: this.model.lastName,
+		sex:this.model.sex,
+		birthday:this.model.birthday
+	});
+	
+	this.userService.setUsers(this.form.users)	
+	
+	this.disabledForm();
+  }
+  
+  public clearForm(form: any){
+	form.reset();
+  }
+  
+  public handleUserData(form: any): void {
+	console.group("Form Data");
+	console.log(this.form.users);
+	console.groupEnd();
+	
+	console.group("Form Model");
+	console.log(form);
+	console.groupEnd();
+	
+	form.resetForm();
   }
 
 }

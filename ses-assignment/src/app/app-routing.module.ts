@@ -9,7 +9,7 @@ const routes: Routes = [
 	  component: SesAssignmentComponent
 	},
 	{
-	  path: 'display_data',
+	  path: 'display-data',
 	  component: DisplayDataComponent
 	}
 ];

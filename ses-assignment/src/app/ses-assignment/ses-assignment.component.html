@@ -1,4 +1,7 @@
-	<form #sesForm = "ngForm" (ngSubmit)= "handleUserData()" >
+<!--  Ses Assignment Html
+	  Displays the form used to enter user data
+  -->
+	<form #sesForm = "ngForm" (ngSubmit)= "handleUserData(sesForm)" >
 	<div class ="form-group">
         <label for = "firstName"> First Name: </label>
 		<input [(ngModel)]="model.firstName" type = "text" id = "firstName" name = "firstName" #firstName ="ngModel" class ="form-control"
@@ -36,16 +39,14 @@
 		<label for = "birthday"> Birthday: </label>
 		<input [(ngModel)]="model.birthday" type = "date" id = "birthday" name = "birthday" #birthday = "ngModel"
 		required>
-		<div [hidden]="birthday.valid || birthday.pristine" class = "alert" *ngIf="!sex.touched">
+		<div [hidden]="birthday.valid || birthday.pristine" class = "alert" *ngIf="!birthday.touched">
 		  <div *ngIf = "birthday.errors?.required">Please select a birthday.</div>
 		</div>
 	</div>
+	<button type = "button" class = "btn btn-primary" 
+	  [disabled]= "!sesForm.form.valid" (click)="addUser(); clearForm(sesForm)" >Add user</button>
 	<button type = "submit" class = "btn btn-primary" 
-	  [disabled]= "!sesForm.form.valid" (click) = "handleUserData()">Submit</button>
-	<button type = "redirect" class = "btn btn-primary" [routerLink] = "['../display-data']"
-	  [disabled]= "!sesForm.form.valid">Display data</button>  
-	</form>
-	<!-- not sure if needed
-	<router-outlet></router-outlet>
-  -->
- 
+	  [disabled]= "isDisabled" >Submit</button>
+	<button type = "button" class = "btn btn-primary" [routerLink] = "['../display-data']"
+	  [disabled]= "isDisabled">Display data</button>  
+	</form> 

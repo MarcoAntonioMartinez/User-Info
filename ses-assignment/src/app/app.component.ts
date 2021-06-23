@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { User } from './ses-assignment/user'
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ses-assignment';
+  
+  constructor(){}
 }
