@@ -14,7 +14,7 @@ export class SesAssignmentComponent {
   isDisabled: boolean = true;
    
     ngOnInit(): void {
-	
+	console.log(typeof(this.model.birthday));
   }
   
   public form: {
@@ -42,12 +42,13 @@ export class SesAssignmentComponent {
   }
   
   public addUser(): void {
-	
+	console.log(typeof(this.model.birthday));
+	var userBirthday = new Date(this.model.birthday);
 	this.form.users.push({
 		firstName:this.model.firstName,
 		lastName: this.model.lastName,
 		sex:this.model.sex,
-		birthday:this.model.birthday
+		birthday:userBirthday
 	});
 	
 	this.userService.setUsers(this.form.users)	
