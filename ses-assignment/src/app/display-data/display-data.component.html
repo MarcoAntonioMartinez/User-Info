@@ -5,10 +5,9 @@
 			  updated list after editing or removing user
 -->
 <form>
-	
 	<div class ="form-group">
         <h2> Display User Data </h2>
-		<div>
+		<div id = "table" class = "table-editable">
 			<table class="table">
 			<colgroup>
 				<col width = "10%">
@@ -19,20 +18,27 @@
 			</colgroup>
 			<thead>
 			  <tr>
-			    <th scope = "col">#</th>
-			    <th scope = "col">First Name</th>
-			    <th scope = "col">Last Name</th>
-			    <th scope = "col">Sex</th>
-			    <th scope = "col">Birthday</th>
+			    <th class = "text-center" scope = "col">#</th>
+			    <th class = "text-center" scope = "col">First Name</th>
+			    <th class = "text-center" scope = "col">Last Name</th>
+			    <th class = "text-center" scope = "col">Sex</th>
+			    <th class = "text-center" scope = "col">Birthday</th>
 			  </tr>
 			</thead>
 			<tbody>
 			    <tr *ngFor="let user of displayForm.users; let i = index" >
 				  <th scope ="row">{{ i + 1 }} </th>
-			      <td> {{user.firstName}} </td>
-			      <td> {{user.lastName}} </td>
-				  <td> {{user.sex}} </td>
-				  <td> {{user.birthday | date}} </td>
+			      <td [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, user.firstName); this.userNum=1"> {{user.firstName}} </td>
+			      <td [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, user.firstName); this.userNum=2"> {{user.lastName}} </td>
+				  <td [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, user.firstName); this.userNum=3"> {{user.sex}} </td>
+				  <td [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, user.firstName); this.userNum=4"> {{user.birthday | date}} </td>
+				  <td>
+					   <button *ngIf= "this.enableEdit && this.enableEditIndex == i" (click)="enableEdit=false; isEditable=false" class = "btn" ng-click = "cancel()">Cancel</button>
+					   <button *ngIf= "this.enableEdit && this.enableEditIndex == i" id = "saveBtn" class="btn" (click)="submitEdit(i); enableEdit=false; isEditable=false" type = "submit">Save</button> 
+					  <p> <a [routerLink]="" class="table-row-action edit-action" *ngIf="!enableEdit" (click)="enableEditing($event, i)">
+					     edit
+					   </a> </p>
+				  </td>
 				</tr>
 			</tbody>
 			</table>
@@ -40,18 +46,11 @@
 		<div>
 			<!-- lowest, highest, avg of user age    -->
 			<ul>
-			  <li> Lowest User Age: {{ this.displayForm.ageMin}} </li>
+			  <li> Lowest User Age: {{this.displayForm.ageMin}} </li>
 			  <li> Highest User Age: {{this.displayForm.ageMax}}</li>
 			  <li> Average User Age: {{this.displayForm.ageAvg}}</li>
 			</ul>
 		</div>
-		<!--
-		<ul>
-		<li *ngFor= "let user of displayForm.users">First Name: {{user.firstName}} </li>
-		
-		</ul>
-			
-	-->
     </div>
 	</form>
 
