@@ -17,16 +17,14 @@ export class DisplayDataComponent implements OnInit {
 	ageAvg: number
   };
   
-  model = " "
-  displayUser: User = new User();
-  enableEdit = false;
-  enableEditIndex = null;
-  editUser = "";
-  editName = "";
-  isEditable: boolean = false;
+  model = " ";
+  displayUsers: User = new User();
   
   //used for switch statement
   userNum = 0;
+  
+    //used to determine which table row is being edited? holds the data?
+  editCache: { [key: string]: any } = {};
   
   constructor(private userService: UserService) { 
     this.displayForm = {
@@ -35,6 +33,8 @@ export class DisplayDataComponent implements OnInit {
 		ageMax: 0,
 		ageAvg: 0
 	};
+	
+	
   }
  
  //get the user data from the SesAssignmentComponent
@@ -54,42 +54,47 @@ export class DisplayDataComponent implements OnInit {
 	this.displayForm.ageMax = this.getAgeMax(userAge);
 
 	this.displayForm.ageAvg = +(this.getAgeAvg(userAge).toFixed(2));
+	
+	this.updateEditCache();
   }
   
-	enableEditing(e: any,i: any){
-		this.enableEdit = true;
-		this.enableEditIndex = i;
-		console.log(i,e);
-		console.log("before assignment: " + this.isEditable);
-		this.isEditable = true;
-		console.log("after assignment: " + this.isEditable);
+  //begins editing
+	startEdit(id: string){
+		this.editCache[id].edit = true;
+	}
+	//cancel an edit
+	cancelEdit(id: string): void{
+		//this.reset();
+		const index = this.displayForm.users.findIndex(item => item.id === id);
+		this.editCache[id] = {
+			data: { ...this.displayForm.users[index] },
+			edit: false
+		};
 	}
 	
-	saveEdit(event: any, name: string){
-		this.editUser = event.target.outerText as string;
-		this.editName = name;
+	//save the edit
+	saveEdit(id: string): void {
+		const index = this.displayForm.users.findIndex(item => item.id === id);
+		Object.assign(this.displayForm.users[index], this.editCache[id].data);
+		this.editCache[id].edit = false;
+	
 	}
 	
-	submitEdit(index: number){
-	  switch(this.userNum)
-	  {
-		case 1:
-			this.displayForm.users[index].firstName = this.editUser;
-			break;
-		case 2:
-			this.displayForm.users[index].lastName = this.editUser;
-			break;
-		case 3:
-			this.displayForm.users[index].sex = this.editUser;
-			break;
-		case 4:
-			let userDate = new Date(this.editUser);
-			this.displayForm.users[index].birthday = userDate;
-			break;
-	  }	
-	  
-	  console.log(this.displayForm.users);
+	//update the edit cache 
+	updateEditCache(): void {
+		this.displayForm.users.forEach(item => { 
+			this.editCache[item.id] = {
+				edit: false,
+				data: { ...item }
+			};
+		});
 	}
+	
+	removeUser(index: string){
+	  let numIndex = parseInt(index);
+	  this.displayForm.users.splice(numIndex, 1);
+	}
+
 	calculateAge(user: User){
 	let age = 0;
 	var currentTime = new Date();

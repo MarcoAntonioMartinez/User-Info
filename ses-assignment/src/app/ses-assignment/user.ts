@@ -1,10 +1,12 @@
 export class User {
-		 public firstName:string;
-		 public lastName:string;
-		 public sex:string;
+		 public id: string;
+		 public firstName: string;
+		 public lastName: string;
+		 public sex: string;
 		 public birthday: Date;
 		 
 		 constructor(){
+		  this.id = "";
 		  this.firstName = '';
 		  this.lastName = '';
 		  this.sex = '';

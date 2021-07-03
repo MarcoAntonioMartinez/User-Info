@@ -5,6 +5,7 @@
 			  updated list after editing or removing user
 -->
 <form>
+
 	<div class ="form-group">
         <h2> Display User Data </h2>
 		<div id = "table" class = "table-editable">
@@ -27,17 +28,87 @@
 			</thead>
 			<tbody>
 			    <tr *ngFor="let user of displayForm.users; let i = index" >
-				  <th scope ="row">{{ i + 1 }} </th>
-			      <td [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, user.firstName); this.userNum=1"> {{user.firstName}} </td>
-			      <td [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, user.firstName); this.userNum=2"> {{user.lastName}} </td>
-				  <td [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, user.firstName); this.userNum=3"> {{user.sex}} </td>
-				  <td [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, user.firstName); this.userNum=4"> {{user.birthday | date}} </td>
+				  <th scope ="row">{{ i + 1 }}</th>
+				  <td> 
+					<ng-container *ngIf="!editCache[user.id].edit; else fnameInput">
+					  {{ user.firstName }}
+					</ng-container>
+					<ng-template #fnameInput>
+					  <input type="text" [(ngModel)]="editCache[user.id].user.firstName">
+					</ng-template>
+				  </td>
 				  <td>
-					   <button *ngIf= "this.enableEdit && this.enableEditIndex == i" (click)="enableEdit=false; isEditable=false" class = "btn" ng-click = "cancel()">Cancel</button>
-					   <button *ngIf= "this.enableEdit && this.enableEditIndex == i" id = "saveBtn" class="btn" (click)="submitEdit(i); enableEdit=false; isEditable=false" type = "submit">Save</button> 
-					  <p> <a [routerLink]="" class="table-row-action edit-action" *ngIf="!enableEdit" (click)="enableEditing($event, i)">
-					     edit
-					   </a> </p>
+					<div class ="editable-row-operations">
+					  <ng-container *ngIf="!editCache[user.id].edit; else saveRow">
+						<a [routerLink]="" (click)="startEdit(user.id)">Edit</a>
+					  </ng-container>
+					  <ng-template #saveRow>
+						<a (click)="saveEdit(user.id)">Save</a>
+						<a (click)="cancelEdit(user.id)">Cancel</a>
+					  </ng-template>
+					</div>
+				  </td>
+				  <td> 
+					<ng-container *ngIf="!editCache[user.id].edit; else lnameInput">
+					  {{ user.lastName }}
+					</ng-container>
+					<ng-template #lnameInput>
+					  <input type="text" [(ngModel)]="editCache[user.id].user.lastName">
+					</ng-template>
+				  </td>
+				  <td>
+					<div class ="editable-row-operations">
+					  <ng-container *ngIf="!editCache[user.id].edit; else saveRow">
+						<a [routerLink]="" (click)="startEdit(user.id)">Edit</a>
+					  </ng-container>
+					  <ng-template #saveRow>
+						<a (click)="saveEdit(user.id)">Save</a>
+						<a (click)="cancelEdit(user.id)">Cancel</a>
+					  </ng-template>
+					</div>
+				  </td>
+				  <td> 
+					<ng-container *ngIf="!editCache[user.id].edit; else sexInput">
+					  {{ user.sex }}
+					</ng-container>
+					<ng-template #sexInput>
+					  <input type="text" [(ngModel)]="editCache[user.id].user.sex">
+					</ng-template>
+				  </td>
+				  <td>
+					<div class ="editable-row-operations">
+					  <ng-container *ngIf="!editCache[user.id].edit; else saveRow">
+						<a [routerLink]="" (click)="startEdit(user.id)">Edit</a>
+					  </ng-container>
+					  <ng-template #saveRow>
+						<a (click)="saveEdit(user.id)">Save</a>
+						<a (click)="cancelEdit(user.id)">Cancel</a>
+					  </ng-template>
+					</div>
+				  </td>
+				  <td> 
+					<ng-container *ngIf="!editCache[user.id].edit; else bdayInput">
+					  {{ user.birthday }}
+					</ng-container>
+					<ng-template #bdayInput>
+					  <input type="text" [(ngModel)]="editCache[user.id].user.birthday">
+					</ng-template>
+				  </td>
+				  <td>
+					<div class ="editable-row-operations">
+					  <ng-container *ngIf="!editCache[user.id].edit; else saveRow">
+						<a [routerLink]="" (click)="startEdit(user.id)">Edit</a>
+					  </ng-container>
+					  <ng-template #saveRow>
+						<a (click)="saveEdit(user.id)">Save</a>
+						<!-- add confirmation dialog -->
+						<a (click)="cancelEdit(user.id)">Cancel</a>
+					  </ng-template>
+					</div>
+				  </td>
+				  <td>
+				  <!-- add confirmation dialog -->
+				    <a [routerLink]="" (click)="removeUser(user.id)">Remove</a>
 				  </td>
 				</tr>
 			</tbody>
@@ -53,5 +124,3 @@
 		</div>
     </div>
 	</form>
-
- 
