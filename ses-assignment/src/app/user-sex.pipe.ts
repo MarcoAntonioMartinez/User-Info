@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { User } from './ses-assignment/user';
 
 @Pipe({
-  name: 'userSex'
+  name: 'userSexFilter'
 })
 export class UserSexPipe implements PipeTransform {
 

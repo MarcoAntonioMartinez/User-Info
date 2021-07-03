@@ -17,8 +17,10 @@ export class DisplayDataComponent implements OnInit {
 	ageAvg: number
   };
   
-  model = " ";
+  filter = " ";
+  results: any;
   displayUsers: User = new User();
+  isFilterable = false;
   
   //used for switch statement
   userNum = 0;
@@ -56,7 +58,21 @@ export class DisplayDataComponent implements OnInit {
 	this.displayForm.ageAvg = +(this.getAgeAvg(userAge).toFixed(2));
 	
 	this.updateEditCache();
+	
+	
   }
+  
+  onChange(userFilter: string){
+	this.filter = userFilter;
+  }
+  
+  //sets the filter to list box selection
+  filterUser(){
+	
+	this.isFilterable = true;
+  }
+  
+  
   
   //begins editing
 	startEdit(id: string){

@@ -5,9 +5,20 @@
 			  updated list after editing or removing user
 -->
 <form>
+  
 
-	<div class ="form-group">
-        <h2> Display User Data </h2>
+  <div class ="form-group">
+     <h2> Display User Data </h2>
+	 <div class = "form-group">
+	  <label for ="sex"> Filter by sex: </label>
+	    <select [(ngModel)]="filter" (ngModelChange)="onChange(filter)" name="sex" id ="sex" >
+	      <option value ="male">Male</option>
+		  <option value ="female">Female</option>
+		  <option value ="other">Other</option>
+	    </select>
+		<!--when button is clicked I have to update the data in the array and set a boolean variable to true and it will determine when to show the regular data -->
+	  <button type="button" id="filterButton" class ="btn" (click)="filterUser()" >Filter</button>
+	 </div>
 		<div id = "table" class = "table-editable">
 			<table class="table">
 			<colgroup>
@@ -27,7 +38,8 @@
 			  </tr>
 			</thead>
 			<tbody>
-			    <tr *ngFor="let user of displayForm.users; let i = index" >
+				<ng-container *ngIf="isFilterable;else filterRow">
+			    <tr *ngFor="let user of displayForm.users | userSexFilter: filter; let i = index" >
 				  <th scope ="row">{{ i + 1 }}</th>
 				  <td> 
 					<ng-container *ngIf="!editCache[user.id].edit; else fnameInput">
@@ -37,17 +49,8 @@
 					  <input type="text" [(ngModel)]="editCache[user.id].user.firstName">
 					</ng-template>
 				  </td>
-				  <td>
-					<div class ="editable-row-operations">
-					  <ng-container *ngIf="!editCache[user.id].edit; else saveRow">
-						<a [routerLink]="" (click)="startEdit(user.id)">Edit</a>
-					  </ng-container>
-					  <ng-template #saveRow>
-						<a (click)="saveEdit(user.id)">Save</a>
-						<a (click)="cancelEdit(user.id)">Cancel</a>
-					  </ng-template>
-					</div>
-				  </td>
+				 
+				 
 				  <td> 
 					<ng-container *ngIf="!editCache[user.id].edit; else lnameInput">
 					  {{ user.lastName }}
@@ -56,17 +59,7 @@
 					  <input type="text" [(ngModel)]="editCache[user.id].user.lastName">
 					</ng-template>
 				  </td>
-				  <td>
-					<div class ="editable-row-operations">
-					  <ng-container *ngIf="!editCache[user.id].edit; else saveRow">
-						<a [routerLink]="" (click)="startEdit(user.id)">Edit</a>
-					  </ng-container>
-					  <ng-template #saveRow>
-						<a (click)="saveEdit(user.id)">Save</a>
-						<a (click)="cancelEdit(user.id)">Cancel</a>
-					  </ng-template>
-					</div>
-				  </td>
+				  
 				  <td> 
 					<ng-container *ngIf="!editCache[user.id].edit; else sexInput">
 					  {{ user.sex }}
@@ -75,17 +68,8 @@
 					  <input type="text" [(ngModel)]="editCache[user.id].user.sex">
 					</ng-template>
 				  </td>
-				  <td>
-					<div class ="editable-row-operations">
-					  <ng-container *ngIf="!editCache[user.id].edit; else saveRow">
-						<a [routerLink]="" (click)="startEdit(user.id)">Edit</a>
-					  </ng-container>
-					  <ng-template #saveRow>
-						<a (click)="saveEdit(user.id)">Save</a>
-						<a (click)="cancelEdit(user.id)">Cancel</a>
-					  </ng-template>
-					</div>
-				  </td>
+				  
+				  
 				  <td> 
 					<ng-container *ngIf="!editCache[user.id].edit; else bdayInput">
 					  {{ user.birthday }}
@@ -111,6 +95,65 @@
 				    <a [routerLink]="" (click)="removeUser(user.id)">Remove</a>
 				  </td>
 				</tr>
+				
+			</ng-container>	
+			<ng-template #filterRow>
+			<tr *ngFor="let user of displayForm.users; let i = index" >
+				  <th scope ="row">{{ i + 1 }}</th>
+				  <td> 
+					<ng-container *ngIf="!editCache[user.id].edit; else fnameInput">
+					  {{ user.firstName }}
+					</ng-container>
+					<ng-template #fnameInput>
+					  <input type="text" [(ngModel)]="editCache[user.id].user.firstName">
+					</ng-template>
+				  </td>
+				  
+				  <td> 
+					<ng-container *ngIf="!editCache[user.id].edit; else lnameInput">
+					  {{ user.lastName }}
+					</ng-container>
+					<ng-template #lnameInput>
+					  <input type="text" [(ngModel)]="editCache[user.id].user.lastName">
+					</ng-template>
+				  </td>
+				  
+				  
+				  <td> 
+					<ng-container *ngIf="!editCache[user.id].edit; else sexInput">
+					  {{ user.sex }}
+					</ng-container>
+					<ng-template #sexInput>
+					  <input type="text" [(ngModel)]="editCache[user.id].user.sex">
+					</ng-template>
+				  </td>
+				  
+				  <td> 
+					<ng-container *ngIf="!editCache[user.id].edit; else bdayInput">
+					  {{ user.birthday }}
+					</ng-container>
+					<ng-template #bdayInput>
+					  <input type="text" [(ngModel)]="editCache[user.id].user.birthday">
+					</ng-template>
+				  </td>
+				  <td>
+					<div class ="editable-row-operations">
+					  <ng-container *ngIf="!editCache[user.id].edit; else saveRow">
+						<a [routerLink]="" (click)="startEdit(user.id)">Edit</a>
+					  </ng-container>
+					  <ng-template #saveRow>
+						<a (click)="saveEdit(user.id)">Save</a>
+						<!-- add confirmation dialog -->
+						<a (click)="cancelEdit(user.id)">Cancel</a>
+					  </ng-template>
+					</div>
+				  </td>
+				  <td>
+				  <!-- add confirmation dialog -->
+				    <a [routerLink]="" (click)="removeUser(user.id)">Remove</a>
+				  </td>
+				</tr>
+			</ng-template>
 			</tbody>
 			</table>
 		</div>
