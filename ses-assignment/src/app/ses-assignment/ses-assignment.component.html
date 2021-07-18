@@ -8,7 +8,6 @@
   <title>SES Assignment User Form</title>
 </head>
 <body>
-  
   <form #sesForm = "ngForm" (ngSubmit)= "handleUserData(sesForm)" >
 	<h2>User Form</h2>
 	<div class ="form-group">
@@ -29,12 +28,8 @@
 			<div *ngIf="lastName.errors?.required">Last name is required.</div>
 			<div *ngIf="lastName.errors?.minlength">Last name should be minimum of {{ lastName.errors?.minlength.requiredLength }} characters. </div>
 			<div *ngIf="lastName.errors?.pattern">Last name should be comprised of only letters.</div>
-		</div>
-	  <!-- this div does not work. need to find a way to show an alert or an error when a user has put input and has not added the user. So that when submit is pressed and there is input in the input fields it tells the users are you sure you don't want to add the user and confirm just submits and clear input fields. maybe put in the ts for this file
-	  <div [hidden] = "isNotAdded && lastName.dirty && lastName.valid">
-	    <div > User with last name {{model.lastName}} has not been added.</div> -->
+		</div>	  
 	</div>
-
 	<div class = "form-group">
 		<p>   What is your sex? </p> <br>
 		<input [(ngModel)]="model.sex" type = "radio" id = "male" name = "sex" class = "radio" value = "male" #sex = "ngModel" required>
@@ -57,19 +52,16 @@
 	<div class ="form-group">
         <button type = "button" class = "btn btn-primary" 
             [disabled]= "!sesForm.form.valid" (click)="addUser(); clearForm(sesForm); isNotAdded=false" >Add user</button>
-	 
-	 <!-- if there is valid data that was not submitted, show confirmation dialog for when user submits without finishing input -->
-        <ng-container *ngIf="sesForm.form.valid && sesForm.form.dirty; else ">
+	 <!-- if there is data that was not submitted, show confirmation dialog for when user submits without finishing input -->
+        <ng-container *ngIf="sesForm.form.invalid && sesForm.form.dirty; else normalSubmit">
             <button type = "submit" class = "btn btn-primary" 
                 [disabled]= "!isSubmittable" (click)="isNotAdded=true">Submit</button>
         </ng-container>
-	  
 	  <!-- otherwise submit works as normal -->
         <ng-template #normalSubmit>
             <button type = "submit" class = "btn btn-primary" 
                 [disabled]= "!isSubmittable">Submit</button>
         </ng-template>
-	  
         <button type = "button" class = "btn btn-primary" [routerLink] = "['../display-data']"
             [disabled]= "!isDisplayable">Display data</button>  
 	</div>
