@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SesAssignmentComponent } from './ses-assignment/ses-assignment.component';
 import { DisplayDataComponent } from './display-data/display-data.component';
-import { UserSexPipe } from './user-sex.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -13,9 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     SesAssignmentComponent,
-    DisplayDataComponent,
-    UserSexPipe
-    
+    DisplayDataComponent
   ],
   imports: [
     BrowserModule,

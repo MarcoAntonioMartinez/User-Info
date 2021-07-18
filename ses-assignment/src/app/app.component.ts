@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { User } from './ses-assignment/user'
 
 @Component({
   selector: 'app-root',

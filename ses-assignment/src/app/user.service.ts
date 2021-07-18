@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { User } from './ses-assignment/user';
-//import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
