@@ -60,7 +60,9 @@ input.radio{
 	/* Make radio buttons closer to label */
 	text-align: left;
 	width: 20px;
+	
 }
+
 
 input:focus {
   /* Additional highlight for focused elements */
