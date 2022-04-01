@@ -4,11 +4,11 @@ import { User } from './user';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'ses-assignment',
-  templateUrl: './ses-assignment.component.html',
-  styleUrls: ['./ses-assignment.component.css']
+  selector: 'user-info',
+  templateUrl: './user-info.component.html',
+  styleUrls: ['./user-info.component.css']
 })
-export class SesAssignmentComponent implements OnInit {
+export class UserInfoComponent implements OnInit {
   
   
   //the domain model for users
