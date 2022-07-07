@@ -1,0 +1,497 @@
+How to send form data to another page using Template Driven Form Angular?
+So I am trying to figure out how I can send submitted template driven form data to another page so that I can display the data. In my form I have user data like first name and last name. I use a domain model and set the input to the model. I push the data to an array of users. How can I send this data to another page where I can display it? 
+
+So this is what the project does:
+
+ - User submits data of 1 or more users
+ - Data gets submitted and gets
+   processed 
+- User presses button that takes them to another page
+- this new page displays all data that got submitted
+
+I need to know how to accomplish the last step.
+
+Now I have to figure out how to get filtered data to be used to filter age
+So far I have an ng container and ng template that makes it so if isFilterable is true it will display the filtered user age data
+ if isFilterable is true then it uses displayUser data to push user age
+ otherwise push the user age from the array of users of displayForm
+In the ng template it will display unfiltered user data if isFilterable is false
+
+I call the method to set the user data in ng onit
+
+
+Note to self: when I want to improve upon my SesAssignment project seperate some of the logic into their own components/modules or whatever it should be like all edit user methods can be put into their own file or something like that
+
+put in ses assignment copy
+//otherwise, check if the user really wants to clear filter while editing a row of data
+	else{
+	
+	  //only clear filter while editing a row of data if user confirms that they want to and filter was applied
+	  if(this.isFilterable && this.displayUsers[this.editUserIndex].sex === this.filter){
+	    //will still show confirmation if filter is applied and then clear is clicked
+	    if(confirm("Are you sure you want to clear the filter? A user is currently being edited.")){
+	      this.isFilterable = false;
+		
+		
+	      this.assignUserAgeData(this.displayForm.users, this.userAge);
+	    }
+	  }
+	  //otherwise not t 
+	  else if(this.displayUsers[this.editUserIndex].sex !== this.filter){
+		 this.isFilterable = false;
+	
+		 this.assignUserAgeData(this.displayForm.users, this.userAge);
+	  }
+
+************************************************** end of code ***************************************
+
+//the problem is that the id is the user id and displayUsers does not have that index how can i make it so i know how many users are in array currently and update that?
+	//if array length does not equal 0 make numIndex equal to numIndex - array length 
+	//or for filtered users
+	/* ok so user array gets filtered and numIndex will be user id. user id will not match with index of array
+	there are 2 males that are filtered. 2 is num index and is first one in filtered array. remove index will be 2 - 2 so 0 which is the first element of array
+then it gets deleted, but user id will still be 3 for the element that is still left so 3 is num index - length which will be 1 and result will be 2 which won't exist at the time	
+	so that won't work
+	if array.length = 2 and minus that will 1 which is not right, 
+	array.length - array.length?
+	  that would be 2 - 2 = 0 and then remove and length will be 1
+	  1 - 1 = 0
+	  length of 3 and 3-3 would be first and then what about the rest?
+	  set remove index to 0
+	   how would i change it? array length will be 2 and then remove 1. so length is 1
+	*/
+	
+	
+	
+	  const removeDisplayIndex = this.displayUsers.findIndex(item => item.id === index);
+//so this will make it so it looks for the index where numIndx is equal to the id of a user so
+//  user id to be removed is 3 so find index of the element in displayUsers where user id equals 3
+	  if(confirm("Are you sure you want to delete "+ this.displayUsers[removeDisplayIndex].firstName + " " + this.displayUsers[removeDisplayIndex].lastName + "?")){
+		//problem clicking on remove returns id of  the one after clicked row, removes the one from after row and then clear shows the accurate one deleted
+		//remove the deleted user from displayUsers
+		this.displayUsers.splice(removeDisplayIndex, 1);
+		this.displayForm.users.splice(numIndex, 1);
+		
+		
+		//clear the filter and reassign displayUsers array and user age array
+  clearFilter(): void{
+    this.isFilterable = false;
+	
+	//this.assignDisplayUsers();
+	
+	//what do i need here if anything? clear the filter makes it so displayform users gets displayed
+
+	this.assignUserAgeData(this.displayForm.users, this.userAge);
+  }
+
+
+
+
+<div [hidden]="displayFirst.valid || displayFirst.dirty" class = "alert" *ngIf="displayFirst.touched && !displayFirst.valid">
+						<div *ngIf="displayFirst.errors?.required"><script>alert("First name is required"); </script></div>
+						<div *ngIf="displayFirst.errors?.minlength">
+						  <script>alert("First name should be minimum of {{ displayFirst.errors?.minlength.requiredLength }} characters."); </script>
+						</div>
+					  </div> 
+					  
+					  */
+	//if(/^[a-z]+$/i.test(fName))
+	//maybe just go back to validating in template html and make a script inbetween divs
+	
+	/*
+	//validate edited user's data; done here because can't disable clicking on a tags
+	if((!this.editCache[id].data.firstName && !this.editCache[id].data.firstName.replace(/\s/g, '').length) && 
+	   (!this.editCache[id].data.lastName && !this.editCache[id].data.lastName.replace(/\s/g, '').length)&& !this.editCache[id].data.sex){
+	  alert("Please enter a valid first name(3 letters), last name(3 letters), and sex(male, female, other).")  
+	}
+	else if(this.editCache[id].data.firstName.length < 3  || this.editCache[id].data.lastName.length < 3){
+	  alert("Please enter a first name and last name longer than 3 letters.");
+	}
+	else if(!this.editCache[id].data.firstName.replace(/\s/g, '').length   || !this.editCache[id].data.lastName.replace(/\s/g, '').length){
+	  alert("First name and last name cannot be empty.");
+	}
+	else if(userSex !== "" && !(userSex === "male" || userSex === "female" || userSex === "other")) {
+	  alert("A user's sex must be one of the following: male, female, other.");
+	 
+	  }
+	else{
+	  //assign the modified edited data 
+	  this.editCache[id].data.sex = userSex;
+	  this.editCache[id].data.firstName = fNameUpper;
+	  this.editCache[id].data.lastName = lNameUpper;
+	*/  
+
+
+
+https://javascript.plainenglish.io/how-to-deep-copy-objects-and-arrays-in-javascript-7c911359b089
+deep copy method
+
+look up later if i want to end up using stuff like this
+Error: src/app/display-data/display-data.component.ts:4:28 - error TS2497: This module can only be referenced with ECMAScript imports/exports by turning on the 'allowSyntheticDefaultImports' flag and referencing its default export.
+<div class = "form-group">
+	  <label for ="sex"> Filter by sex: </label>
+	  <select [(ngModel)]="filter" name="sex" id ="sex">
+	    <option value ="male">Male</option>
+		<option value ="female">Female</option>
+		<option value ="other">Other</option>
+	  </select>
+	  <button type="button" id="filterButton" class ="btn" (click)="filterUser()" >Filter</button>
+	</div>
+	
+removeUser(index: number)
+{
+  displayData.splice(index, 1)
+}
+
+filterClass
+@Pipe({name: 'UserFilter'})
+export class ExponentialStrengthPipe implements PipeTransform {
+    // The pipe's transform method take first Argurment is the data using that pipe( which is data before the '|' mark in the template), the others parameter is optional
+  transform(input: Array<User>, sex): number {
+    // Your logic of returned values go here
+    return input.filter( x => x.sex === sex);
+  }
+}
+
+<!-- 
+	Display Data Page
+	displays: list of user data that can be filtered by sex
+			  lowest, highest or avg age of user data or filtered data
+			  updated list after editing or removing user
+-->
+<form #disForm ="ngForm"> 
+    <h2> Display User Data </h2>
+    <div id = "table" class = "table-editable"> 
+		<table class="table">
+		  <colgroup>
+			  <col width = "10%">
+		      <col width = "*">
+			  <col width = "20%">
+			  <col width = "20%">
+			  <col width = "20%">
+		  </colgroup>
+		  <thead>
+		    <tr>
+		      <th class = "text-center" scope = "col">#</th>
+		      <th class = "text-center" scope = "col">First Name</th>
+		      <th class = "text-center" scope = "col">Last Name</th>
+		      <th class = "text-center" scope = "col">Sex</th>
+		      <th class = "text-center" scope = "col">Birthday</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			<tr *ngFor="let user of this.displayForm.users; let i = index" >
+	<!--			  <td> {{user.id + 1}} </td> -->
+			  <td> 
+	<!--		    <ng-container [ngIf]="!editCache[user.id].edit; else nameInput">
+			      {{ user.firstName }}
+			    </ng-container>
+			    <ng-template #nameInput>
+				  <input type="text" [(ngModel)]="editCache[user.id].user.name">
+		        </ng-template>
+			  </td>
+			  <td>
+			    <div class ="editable-row-operations">
+				  <ng-container [ngIf]="!editCache[user.id].edit; else saveRow">
+					<a (click)="startEdit(user.id)">Edit</a>
+				  </ng-container>
+				  <ng-template #saveRow>
+					<a (click)="saveEdit(user.id)">Save</a>
+					<a (click)="cancelEdit(user.id)">Cancel</a>
+				  </ng-template>
+				</div>-->
+			  </td>
+			</tr>
+		  </tbody>
+		</table>
+		<!--	<a nz-popconfirm nzTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data.id)">Cancel</a>		  
+		[ngModel] #firstName="ngModel" [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, firstName); this.userNum=1;"> 
+								{{user.firstName}} </td>
+			      <td [ngModel] #lastName="ngModel" [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, lastName); this.userNum=2"> 
+								{{user.lastName}} </td>
+				  <td [ngModel] #sex="ngModel" [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, sex); this.userNum=3"> 
+								{{user.sex}} </td>
+				  <td [ngModel] #birthday="ngModel" [contentEditable]="isEditable && enableEditIndex==i" (input)="saveEdit($event, birthday); this.userNum=4"> 
+								{{user.birthday | date}} </td>
+				  <td>
+					   <button *ngIf= "this.enableEdit && this.enableEditIndex == i" (click)="cancel(); enableEdit=false; isEditable=false" class = "btn" >Cancel</button>
+					   <button *ngIf= "this.enableEdit && this.enableEditIndex == i" id = "saveBtn" class="btn" (click)="submitEdit(i); enableEdit=false; isEditable=false" type = "submit">Save</button> 
+					  <p> <a [routerLink]="" class="table-row-action edit-action" *ngIf="!enableEdit" (click)="enableEditing($event, i)">
+					     edit
+					   </a> </p>
+				  </td>
+				</tr>
+			</tbody>
+			</table>
+			-->
+	</div> 
+	<div>
+		
+			<!-- lowest,#displayForm highest, avg of user age    -->
+			<ul>
+			  <li> Lowest User Age: {{this.displayForm.ageMin}} </li>
+			  <li> Highest User Age: {{this.displayForm.ageMax}}</li>
+			  <li> Average User Age: {{this.displayForm.ageAvg}}</li>
+			</ul>
+    </div> 
+</form>
+/***********************************************************************************************
+
+
+*************************************************************************************************/
+ 
+ 
+ 
+	import { Component, Input, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+import { User } from '../ses-assignment/user';
+
+@Component({
+  selector: 'display-data',
+  templateUrl: './display-data.component.html',
+  styleUrls: ['./display-data.component.css']
+})
+export class DisplayDataComponent implements OnInit {
+ 
+  //form instance used to hold array of users and the lowest, 
+		highest, and average age of the users
+  public displayForm: {
+	users: User[];
+	ageMin: number,
+	ageMax: number,
+	ageAvg: number
+  };
+  /*
+  enableEdit = false;
+  enableEditIndex = null;
+  editUser = "";
+  editName = "";
+  isEditable: boolean = false;
+  displayData: User[] = [];
+  
+  //used for switch statement
+  userNum = 0;
+  
+  currentRowData: User = new User();
+  
+  //used to determine which table row is being edited? holds the data?
+  editCache: { [key: string]: any } = {};
+  
+  constructor(private userService: UserService) { 
+    this.displayForm = {
+		users: [],
+		ageMin: 0,
+		ageMax: 0,
+		ageAvg: 0
+	};
+	
+	
+  }
+ 
+ //get the user data from the SesAssignmentComponent, calculate user age, and update the edit cache
+  ngOnInit(): void {
+	this.displayForm.users = this.userService.getUsers();
+	
+	//calculate all user's age
+	let userAge: number[] = [];
+	
+	for(let user of this.displayForm.users) {
+	
+	userAge.push(this.calculateAge(user));
+	}
+	
+	this.displayForm.ageMin = this.getAgeMin(userAge);
+	
+	this.displayForm.ageMax = this.getAgeMax(userAge);
+
+	this.displayForm.ageAvg = +(this.getAgeAvg(userAge).toFixed(2));
+	
+	this.displayData = this.displayForm.users;
+	
+	//this.updateEditCache();
+  }
+  /*
+  
+	enableEditing(e: any,i: any){
+		this.enableEdit = true;
+		this.enableEditIndex = i;
+		console.log(i,e);
+		console.log("before assignment: " + this.isEditable);
+		this.isEditable = true;
+		console.log("after assignment: " + this.isEditable);
+		console.log(this.displayForm.users)
+	}
+	
+	reset(){
+		console.log("this is displayData before reset: " + this.displayData[0].sex);
+		this.displayData = this.displayForm.users;
+		console.log(this.displayData);
+	}
+	/*
+	//begins editing
+	startEdit(id: string){
+		this.editCache[id].edit = true;
+	}
+	//cancel an edit
+	cancelEdit(id: string): void{
+		//this.reset();
+		const index = this.displayForm.users.findIndex(item => item.id === id);
+		this.editCache[id] = {
+			data: { ...this.displayForm.users[index] },
+			edit: false
+		};
+		/*would this have worked if i changed it  to === instead?
+		const item = this.displayData.find(x => x.id = this.currentRowData.id);
+		
+		if (item){
+			item = this.currentRowData;
+		}*/
+	}
+	//save the edit
+	saveEdit(id: string): void {
+		const index = this.displayForm.users.findIndex(item => item.id === id);
+		Object.assign(this.displayForm.users[index], this.editCache[id].data);
+		this.editCache[id].edit = false;
+	
+	}
+	//update the edit cache 
+	updateEditCache(): void {
+		this.displayForm.users.forEach(item => { 
+			this.editCache[item.id] = {
+				edit: false,
+				data: { ...item }
+			};
+		});
+	}
+	*/
+/*	saveEdit(event: any, rowData: any){
+		this.editUser = event.target.outerText as string;
+		this.currentRowData = rowData;
+	}
+	*/
+	/*
+	submitEdit(index: number){
+	  switch(this.userNum)
+	  {
+		case 1:
+			this.displayForm.users[index].firstName = this.editUser;
+			break;
+		case 2:
+			this.displayForm.users[index].lastName = this.editUser;
+			break;
+		case 3:
+			this.displayForm.users[index].sex = this.editUser;
+			break;
+		case 4:
+			let userDate = new Date(this.editUser);
+			this.displayForm.users[index].birthday = userDate;
+			break;
+	  }	
+	  
+	  console.log(this.displayForm.users);
+	}
+	*/
+	//calculate the users age
+	calculateAge(user: User){
+	let age = 0;
+	var currentTime = new Date();
+	
+	let currentYear = currentTime.getFullYear();
+	
+	//get the user's birth year
+	var year = user.birthday.getFullYear();
+	
+	age = currentYear - year;
+	
+	return age;
+	
+	}
+	//return the minimum age
+	getAgeMin(age: number[]){
+		age: [];
+		return Math.min(...age);
+	}
+	//return the maximum age
+	getAgeMax(age: number[]){
+		age: [];
+		return Math.max(...age);
+	}
+	//return the average age
+	getAgeAvg(age: number[]){
+		age: [];
+		return age.reduce(function(a,b){
+		return (a + b)/age.length
+		}, 0);
+	}
+	*/
+}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+assignment html copy
+
+	<form #sesForm = "ngForm" (ngSubmit)= "handleUserData(sesForm)" >
+	<div class ="form-group">
+        <label for = "firstName"> First Name: </label>
+		<input [(ngModel)]="model.firstName" type = "text" id = "firstName" name = "firstName" #firstName ="ngModel" class ="form-control"
+			required minlength ="3">
+		<div [hidden]="firstName.valid || firstName.pristine" class = "alert" *ngIf="firstName.touched && !firstName.valid">
+		  <div *ngIf="firstName.errors?.required">First name is required.</div>
+		  <div *ngIf="firstName.errors?.minlength">First name should be minimum of {{ firstName.errors?.minlength.requiredLength }} characters. </div>
+		</div>
+    </div>
+	<div class = "form-group">
+	    <label for = "last_name"> Last Name: </label>
+		<input [(ngModel)]="model.lastName" type = "text" id = "lastName" name = "lastName" #lastName = "ngModel" class ="form-control"
+			required minlength ="3">
+	    <div [hidden]="lastName.valid || lastName.pristine" class = "alert" *ngIf="lastName.touched && !lastName.valid">
+	      <div *ngIf="lastName.errors?.required">Last name is required.</div>
+	      <div *ngIf="lastName.errors?.minlength">Last name should be minimum of {{ lastName.errors?.minlength.requiredLength }} characters. </div>
+		</div>
+    </div>
+	<div class = "form-group">
+	    <p> Please select your sex. </p>
+		<input [(ngModel)]="model.sex" type = "radio" id = "male" name = "gender" value = "male" #sex = "ngModel"
+		  required>
+		<label for = "male"> Male </label> <br>
+		<input [(ngModel)]="model.sex" type = "radio" id = "female" name = "gender" value = "female" #sex = "ngModel"
+		  required>
+		<label for = "female"> Female </label> <br>
+		<input [(ngModel)]="model.sex" type = "radio" id = "other" name = "gender" value = "other" #sex = "ngModel"
+		  required>
+		<label for = "other"> Other </label> <br>
+		<div [hidden]="sex.valid || sex.pristine" class = "alert" *ngIf ="!sex.touched">
+		  <div *ngIf= "sex.errors?.required">Please select a sex.</div>
+		</div>
+	</div>    
+	<div class = "form-group">	
+		<label for = "birthday"> Birthday: </label>
+		<input [(ngModel)]="model.birthday" type = "date" id = "birthday" name = "birthday" #birthday = "ngModel"
+		required>
+		<div [hidden]="birthday.valid || birthday.pristine" class = "alert" *ngIf="!sex.touched">
+		  <div *ngIf = "birthday.errors?.required">Please select a birthday.</div>
+		</div>
+	</div>
+	<button  class = "btn btn-primary" 
+	  [disabled]= "!sesForm.form.valid" (click)="addUser()" >Add user</button>
+	<button type = "submit" class = "btn btn-primary" 
+	  [disabled]= "!sesForm.form.valid" >Submit</button>
+	<button type = "button" class = "btn btn-primary" [routerLink] = "['../display-data']"
+	  [disabled]= "!sesForm.form.valid">Display data</button>  
+	</form>
+	
+	<ng-template ngFor let-user [ngForOf]="form.users" let-index="index" let-isLast="last">
+	<p> This is user.firstName: {{user.firstName}} </p>
+	</ng-template>
+	
+	
