@@ -5,10 +5,10 @@
   
 <html lang="en">
 <head>
-  <title>SES Assignment User Form</title>
+  <title>User Information Form</title>
 </head>
 <body>
-  <form #sesForm = "ngForm" (ngSubmit)= "handleUserData(sesForm)" >
+  <form #userForm = "ngForm" (ngSubmit)= "handleUserData(userForm)" >
 	<h2>User Form</h2>
 	<div class ="form-group">
 		<label for = "firstName"> First Name: </label>
@@ -51,9 +51,9 @@
 	</div>
 	<div class ="form-group">
         <button type = "button" class = "btn btn-primary" 
-            [disabled]= "!sesForm.form.valid" (click)="addUser(); clearForm(sesForm); isNotAdded=false" >Add user</button>
+            [disabled]= "!userForm.form.valid" (click)="addUser(); clearForm(userForm); isNotAdded=false" >Add user</button>
 	 <!-- if there is data that was not submitted, show confirmation dialog for when user submits without finishing input -->
-        <ng-container *ngIf="sesForm.form.invalid && sesForm.form.dirty; else normalSubmit">
+        <ng-container *ngIf="userForm.form.invalid && userForm.form.dirty; else normalSubmit">
             <button type = "submit" class = "btn btn-primary" 
                 [disabled]= "!isSubmittable" (click)="isNotAdded=true">Submit</button>
         </ng-container>
