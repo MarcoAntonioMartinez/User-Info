@@ -8,6 +8,6 @@ User Info is a web app where a user can enter the following info:
 
 For multiple people and it will be displayed in a filterable table. It can be filtered by gender.
 
-The mminimum, maximum and average age will also be displayed in a list.
+The minimum, maximum and average age will also be displayed in a list.
 
   
